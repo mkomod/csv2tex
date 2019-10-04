@@ -1,5 +1,5 @@
 
-## Creates LaTeX tables from csv files
+# Creates LaTeX tables from csv files
 
 This is a command line tool that automatically creates LaTeX tables from CSV files.
 
