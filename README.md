@@ -9,6 +9,20 @@ This is a command line tool that automatically creates LaTeX tables from CSV fil
 $ git clone https://github.com/mkomod/csv2tex
 ```
 
+## Overview
+
+```
+usage: csv2tex [-h] [-b] src [outfile]
+
+positional arguments:
+  src            Path of the input file
+  outfile        Name of the output file
+
+optional arguments:
+  -h, --help     show this help message and exit
+  -b, --boarder  Adds boarders to the side of the table
+```
+
 ## Usage
 
 Example csv file named `input.csv`
