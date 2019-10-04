@@ -1,0 +1,121 @@
+#!/usr/bin/env python3
+
+import argparse
+import csv
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "src",
+    help="Path of the input file"
+)
+parser.add_argument(
+    "outfile",
+    nargs="?",
+    help="Name of the output file"
+)
+parser.add_argument(
+    "-b",
+    "--boarder",
+    action="store_true",
+    help="Adds boarders to the side of the table"
+)
+args = parser.parse_args()
+
+
+table_layout = """\\begin{{table}}[htp]
+    \\centering
+    \\begin{{tabular}}{{{cols}}}
+        \hline
+        {header} 
+        \hline
+        {content}
+        \hline
+    \end{{tabular}}
+\end{{table}}"""
+
+
+def read_csv(file_name):
+    """ Read a csv file as input
+
+    Args:
+      file_name: (str) the path of the file to read
+
+    Returns:
+      (list) A list containing the lines of the input file, the values
+      are stored as a list
+    """
+    with open(args.src, "r", newline="\n") as f:
+        csv_file = csv.reader(f, quoting=csv.QUOTE_ALL)
+        table = []
+        for row in csv_file:
+            table += [row]
+
+    f.close()
+    return table
+
+def parse_table(table, args):
+    """ Takes a table and parses it to generate the relevant content
+    consisting of the cols and table content
+
+    Args:
+      table: (list) The table to be parsed
+      args: argparse object containing the relevant flags
+    
+    Returns:
+      (dict) containing the cols and the table content
+    """
+
+    cols = " c " * len(table[0])
+    if args.boarder:
+        cols = " | " + cols + " | "
+
+    content = []
+    for row in table:
+        joined_row = " & ".join(row) + " \\\\"
+        content += [joined_row]
+
+    output = {
+        "cols": cols,
+        "content": content
+    }
+    return output
+
+def format_table(content):
+    """ Generate the formatted string for the table
+
+    Args:
+      content: (dict) Contains the table content: cols and body
+
+    Returns:
+      (str) The formatted table string
+    """
+    cols = content.get("cols", None)
+    content = content.get("content", None)
+    header = content[0]
+    content = "\n\t".join(content[1:])
+    output = table_layout.format(cols=cols, header=header, content=content)
+    return output 
+
+
+def show_output(output, args):
+    """ Handles how the table should be showm, printed or saved to file
+
+    Args:
+      output: (str) the output content
+      args: argparse object used to get the output file name if available,
+        if not the the content is printed to the screen.
+    """
+    if args.outfile:
+        with open(args.outfile, mode="w") as f:
+            f.write(output)
+        f.close()
+    else:
+        print(output)
+
+
+table = read_csv(args.src)
+content = parse_table(table, args)
+output = format_table(content)
+show_output(output, args)
+
