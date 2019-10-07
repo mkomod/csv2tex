@@ -16,9 +16,9 @@ parser.add_argument(
 )
 parser.add_argument(
     "-b",
-    "--boarder",
+    "--border",
     action="store_true",
-    help="Adds boarders to the side of the table"
+    help="Adds borders to the side of the table"
 )
 args = parser.parse_args()
 
@@ -67,7 +67,7 @@ def parse_table(table, args):
     """
 
     cols = " c " * len(table[0])
-    if args.boarder:
+    if args.border:
         cols = " | " + cols + " | "
 
     content = []

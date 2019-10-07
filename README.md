@@ -20,7 +20,7 @@ positional arguments:
 
 optional arguments:
   -h, --help     show this help message and exit
-  -b, --boarder  Adds boarders to the side of the table
+  -b, --border  Adds borders to the side of the table
 ```
 
 ## Usage
@@ -53,9 +53,9 @@ Creates
 \end{table}
 ```
 
-### Boarders
+### Borders
 
-Boarders can be added to the table by using the `-b` flag
+Borders can be added to the table by using the `-b` flag
 
 ```
 $ csv2tex -b input.csv ouput.tex
